@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import "../src/theme/unistyles";
+import "@/theme/unistyles";
 
 export default function RootLayout() {
   return <Stack />;
