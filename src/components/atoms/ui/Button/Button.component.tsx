@@ -23,11 +23,7 @@ export const Button: React.FC<ButtonProps> = ({
       ]}
       {...rest}
     >
-      {loading ? (
-        <ActivityIndicator color="#fff" />
-      ) : (
-        <Text style={styles.text}>{title}</Text>
-      )}
+      {loading ? <ActivityIndicator color="#fff" /> : <Text>{title}</Text>}
     </TouchableOpacity>
   );
 };
