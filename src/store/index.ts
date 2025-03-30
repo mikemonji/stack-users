@@ -3,13 +3,16 @@ import { stackUsersApi } from "@/features/stacjUsers/stackUsersApi";
 import { rootReducer } from "./rootReducer";
 import { persistStore } from "redux-persist";
 import { persistReducer } from "./persist";
+import { localUsersApi } from "@/features/localUsers/localUsersApi";
 
 export const store = configureStore({
   reducer: persistReducer(rootReducer),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(stackUsersApi.middleware),
+    })
+      .concat(stackUsersApi.middleware)
+      .concat(localUsersApi.middleware),
 });
 
 export const persistor = persistStore(store);
