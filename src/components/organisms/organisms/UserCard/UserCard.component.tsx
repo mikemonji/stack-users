@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Image } from "react-native";
+import Animated, { FadeInRight } from "react-native-reanimated";
+
 import { Text } from "@/components/atoms/ui/Text/Text.component";
 import { UserCardProps } from "./UserCard.types";
 import { styles } from "./UserCard.styles";
@@ -10,17 +12,19 @@ export const UserCard: React.FC<UserCardProps> = ({
   onEdit,
   onDelete,
 }) => (
-  <View style={styles.card}>
-    <Image source={{ uri: user.profile_image }} style={styles.avatar} />
-    <View style={{ flex: 1 }}>
-      <Text variant="subtitle">{user.display_name}</Text>
-      <Text variant="caption">Reputation: {user.reputation}</Text>
-    </View>
-    {(onEdit || onDelete) && (
-      <View style={styles.actions}>
-        {onEdit && <Button title="Edit" onPress={onEdit} />}
-        {onDelete && <Button title="Delete" onPress={onDelete} />}
+  <Animated.View entering={FadeInRight.springify().mass(0.4)}>
+    <View style={styles.card}>
+      <Image source={{ uri: user.profile_image }} style={styles.avatar} />
+      <View style={{ flex: 1 }}>
+        <Text variant="subtitle">{user.display_name}</Text>
+        <Text variant="caption">Reputation: {user.reputation}</Text>
       </View>
-    )}
-  </View>
+      {(onEdit || onDelete) && (
+        <View style={styles.actions}>
+          {onEdit && <Button title="Edit" onPress={onEdit} />}
+          {onDelete && <Button title="Delete" onPress={onDelete} />}
+        </View>
+      )}
+    </View>
+  </Animated.View>
 );

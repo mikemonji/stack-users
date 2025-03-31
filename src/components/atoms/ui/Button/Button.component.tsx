@@ -1,7 +1,17 @@
 import React from "react";
-import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { ButtonProps } from "./Button.types";
 import { styles } from "./Button.styles";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 export const Button: React.FC<ButtonProps> = ({
   title,
@@ -11,19 +21,32 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth,
   ...rest
 }) => {
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
   return (
-    <TouchableOpacity
+    <TouchableWithoutFeedback
+      onPressIn={() => (scale.value = withSpring(0.96))}
+      onPressOut={() => (scale.value = withSpring(1))}
       onPress={onPress}
-      disabled={loading}
-      style={[
-        // styles.base,
-        // styles[variant],
-        // fullWidth && styles.fullWidth,
-        rest.style,
-      ]}
-      {...rest}
     >
-      {loading ? <ActivityIndicator color="#fff" /> : <Text>{title}</Text>}
-    </TouchableOpacity>
+      <Animated.View
+        style={[
+          styles.base,
+          styles[variant],
+          fullWidth && styles.fullWidth,
+          animatedStyle,
+        ]}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.text}>{title}</Text>
+        )}
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
