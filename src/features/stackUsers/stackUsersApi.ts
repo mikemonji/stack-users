@@ -16,6 +16,7 @@ export const stackUsersApi = createApi({
           sort: "reputation",
         },
       }),
+      keepUnusedDataFor: 300,
     }),
   }),
 });

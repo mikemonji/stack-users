@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { localUserSchema, LocalUserForm } from "@/forms/localUserSchema";
 import { useAddLocalUserMutation } from "@/features/localUsers/localUsersApi";
 
 import { Column } from "@/components/atoms/layout/Column/Column.component";
@@ -9,7 +8,7 @@ import { Spacer } from "@/components/atoms/layout/Spacer/Spacer.component";
 import { TextInput } from "@/components/atoms/ui/TextInput/TextInput.component";
 import { Button } from "@/components/atoms/ui/Button/Button.component";
 import { Text } from "@/components/atoms/ui/Text/Text.component";
-import { LocalUserForm, localUserSchema } from "../../forms/localUserSchema";
+import { LocalUserForm, localUserSchema } from "@/forms/localUserSchema";
 
 export default function PostUserScreen() {
   const [addUser, { isLoading }] = useAddLocalUserMutation();

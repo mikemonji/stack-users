@@ -2,6 +2,6 @@ export interface StackUser {
   user_id: number;
   display_name: string;
   reputation: number;
-  profile_image: string;
+  profile_image?: string;
   location?: string;
 }

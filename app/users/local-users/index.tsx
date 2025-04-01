@@ -1,6 +1,5 @@
 import React from "react";
-import { FlashList } from "@shopify/flash-list";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator, Alert, FlatList } from "react-native";
 
 import {
   useGetLocalUsersQuery,
@@ -23,9 +22,8 @@ export default function LocalUsersScreen() {
 
   return (
     <Column fullWidth style={{ padding: 16 }}>
-      <FlashList
+      <FlatList
         data={users}
-        estimatedItemSize={70}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <UserCard

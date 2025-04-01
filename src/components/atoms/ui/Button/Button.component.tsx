@@ -2,16 +2,16 @@ import React from "react";
 import {
   ActivityIndicator,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
 import { ButtonProps } from "./Button.types";
-import { styles } from "./Button.styles";
+import { styles as customStyles } from "./Button.styles";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { useStyles } from "react-native-unistyles";
 
 export const Button: React.FC<ButtonProps> = ({
   title,
@@ -22,6 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const scale = useSharedValue(1);
+  const { styles } = useStyles(customStyles);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
