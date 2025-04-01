@@ -9,10 +9,16 @@ export const styles = createStyleSheet((theme) => ({
     justifyContent: "center",
   },
   primary: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.colors.primary,
   },
   secondary: {
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.colors.secondary,
+  },
+  danger: {
+    backgroundColor: theme.colors.danger,
+  },
+  success: {
+    backgroundColor: theme.colors.success,
   },
   text: {
     color: "#fff",

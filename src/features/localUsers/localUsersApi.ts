@@ -11,7 +11,6 @@ export const localUsersApi = createApi({
       query: () => "/users",
       providesTags: ["LocalUser"],
       keepUnusedDataFor: 300,
-      forceRefetch: () => true,
     }),
     getLocalUserById: builder.query<LocalUser, number>({
       query: (id) => `/users/${id}`,

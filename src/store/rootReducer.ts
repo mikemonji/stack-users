@@ -1,8 +1,8 @@
-import { localUsersApi } from "@/features/localUsers/localUsersApi";
-import { stackUsersApi } from "@/features/stacjUsers/stackUsersApi";
+import { stackUsersApi } from "@/features/stackUsers/stackUsersApi";
 import { combineReducers } from "@reduxjs/toolkit";
+import stackUserOverrides from "@/features/stackUsers/localOverridesSlice";
 
 export const rootReducer = combineReducers({
   [stackUsersApi.reducerPath]: stackUsersApi.reducer,
-  [localUsersApi.reducerPath]: localUsersApi.reducer,
+  stackUserOverrides,
 });

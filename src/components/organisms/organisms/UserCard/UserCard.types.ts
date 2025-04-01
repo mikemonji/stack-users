@@ -1,4 +1,4 @@
-import { StackUser } from "@/features/stacjUsers/types";
+import { StackUser } from "@/features/stackUsers/types";
 
 export interface UserCardProps {
   user: StackUser;

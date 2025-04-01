@@ -4,7 +4,7 @@ import { persistReducer as createPersistReducer } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["localUsersApi"],
+  whitelist: ["stackUserOverrides"],
 };
 
 export const persistReducer = (rootReducer: any) =>
