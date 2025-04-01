@@ -18,7 +18,16 @@ export const stackUsersApi = createApi({
       }),
       keepUnusedDataFor: 300,
     }),
+    deleteUser: builder.mutation<void, number>({
+      query: (userId) => ({
+        url: `/users/${userId}`,
+        method: "DELETE",
+        params: {
+          site: "stackoverflow",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery } = stackUsersApi;
+export const { useGetUsersQuery, useDeleteUserMutation } = stackUsersApi;

@@ -4,4 +4,5 @@ export interface StackUser {
   reputation: number;
   profile_image?: string;
   location?: string;
+  __deleted?: boolean;
 }

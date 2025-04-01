@@ -6,9 +6,15 @@ import { useGetUsersQuery } from "@/features/stackUsers/stackUsersApi";
 import { Text } from "@/components/atoms/ui/Text/Text.component";
 import { Stack, useRouter } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { resetOverrides } from "@/features/stackUsers/localOverridesSlice";
+import {
+  addOverride,
+  removeOverride,
+  resetOverrides,
+} from "@/features/stackUsers/localOverridesSlice";
 import type { StackUser } from "@/features/stackUsers/types";
 import { UserCard } from "@/components/organisms/organisms/UserCard/UserCard.component";
+import Toast from "react-native-toast-message";
+import { useDeleteUserMutation } from "@/features/stackUsers/stackUsersApi";
 
 export default function UsersScreen() {
   const [page, setPage] = useState(1);
@@ -17,12 +23,8 @@ export default function UsersScreen() {
   const overrides = useAppSelector((state) => state.stackUserOverrides);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [deleteUser] = useDeleteUserMutation();
 
-  useEffect(() => {
-    console.log("✅ getUsersQuery result:", data, "Fetching:", isFetching);
-  }, [data, isFetching]);
-
-  // accumulate users across pages
   useEffect(() => {
     if (data?.items?.length) {
       setAllUsers((prev) => [
@@ -34,24 +36,41 @@ export default function UsersScreen() {
     }
   }, [data]);
 
-  const mergedUsers = allUsers.map((user) => overrides[user.user_id] || user);
+  const mergedUsers = allUsers
+    .map((user) => overrides[user.user_id] || user)
+    .filter((user) => !user.__deleted);
 
   const handleEdit = useCallback(
     (id?: number) => () => {
-      id && router.navigate(`./local-users/${id}`);
+      id && router.navigate(`/users/${id}`);
     },
     []
   );
 
-  const handleDelete = useCallback((id: number) => {
-    // Not implemented here — showcase delete via local override slice or local POST fallback
-  }, []);
+  const handleDelete = useCallback(
+    (user: StackUser) => async () => {
+      console.log("Deleting user", user);
+      dispatch(addOverride({ ...user, __deleted: true }));
+
+      try {
+        await deleteUser(user.user_id).unwrap();
+      } catch (err) {
+        dispatch(removeOverride(user.user_id));
+        Toast.show({
+          type: "error",
+          text1: "Delete failed",
+          text2: "StackOverflow does not allow deleting users.",
+        });
+      }
+    },
+    []
+  );
 
   const handleRefresh = useCallback(() => {
     dispatch(resetOverrides());
-    setAllUsers([]); // clear accumulated list
-    setPage(1); // start over
-    refetch(); // pull fresh data
+    setAllUsers([]);
+    setPage(1);
+    refetch();
   }, []);
 
   if (!mergedUsers.length && isFetching) {
@@ -72,7 +91,7 @@ export default function UsersScreen() {
           renderItem={({ item }) => (
             <UserCard
               user={item}
-              onDelete={() => handleDelete(item.user_id)}
+              onDelete={handleDelete(item)}
               onEdit={handleEdit(item.user_id)}
             />
           )}

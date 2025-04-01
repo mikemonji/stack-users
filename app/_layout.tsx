@@ -21,6 +21,7 @@ export default function RootLayout() {
         <PersistGate loading={null} persistor={persistor}>
           <Redirect href="/users" />
           <Stack />
+          <Toast />
         </PersistGate>
       </Provider>
     </GestureHandlerRootView>

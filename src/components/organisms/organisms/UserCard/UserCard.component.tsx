@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Image } from "react-native";
-import Animated, { FadeInRight } from "react-native-reanimated";
+import Animated, { FadeInRight, FadeOutRight } from "react-native-reanimated";
 import { Pressable } from "react-native";
 
 import { Text } from "@/components/atoms/ui/Text/Text.component";
@@ -43,7 +43,10 @@ export const UserCard: React.FC<UserCardProps> = ({
   );
 
   return (
-    <Animated.View entering={FadeInRight.springify().mass(0.4)}>
+    <Animated.View
+      entering={FadeInRight.springify().mass(0.4)}
+      exiting={FadeOutRight.duration(300)}
+    >
       <Swipeable renderRightActions={renderRightActions}>
         <Pressable onPress={handlePress}>
           <Row style={styles.card} fullWidth alignItems="center">
